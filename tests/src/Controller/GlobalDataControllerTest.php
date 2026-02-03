@@ -1,14 +1,14 @@
 <?php
 
-namespace Jtl\Connector\Example\Tests\src\Controller;
+namespace Jtl\Connector\Vivino\Tests\src\Controller;
 
 use Jtl\Connector\Core\Model\Currency;
 use Jtl\Connector\Core\Model\CustomerGroup;
 use Jtl\Connector\Core\Model\GlobalData;
 use Jtl\Connector\Core\Model\Language;
 use Jtl\Connector\Core\Model\QueryFilter;
-use Jtl\Connector\Example\Controller\GlobalDataController;
-use Jtl\Connector\Example\Tests\TestCase;
+use Jtl\Connector\Vivino\Controller\GlobalDataController;
+use Jtl\Connector\Vivino\Tests\TestCase;
 use Jtl\Connector\Core\Model\Identity;
 use Jtl\Connector\Core\Model\CustomerGroupI18n;
 use Jtl\Connector\Core\Model\ShippingMethod;

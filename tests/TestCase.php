@@ -1,5 +1,5 @@
 <?php
-namespace Jtl\Connector\Example\Tests;
+namespace Jtl\Connector\Vivino\Tests;
 
 abstract class TestCase extends \Jtl\UnitTest\TestCase
 {

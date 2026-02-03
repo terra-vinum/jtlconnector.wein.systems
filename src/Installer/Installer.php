@@ -1,6 +1,6 @@
 <?php
 
-namespace Jtl\Connector\Example\Installer;
+namespace Jtl\Connector\Vivino\Installer;
 
 use PDO;
 

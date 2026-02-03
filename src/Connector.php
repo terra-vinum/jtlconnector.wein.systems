@@ -1,6 +1,6 @@
 <?php
 
-namespace Jtl\Connector\Example;
+namespace Jtl\Connector\Vivino;
 
 use DI\Container;
 use Jtl\Connector\Core\Authentication\TokenValidatorInterface;
@@ -8,8 +8,8 @@ use Jtl\Connector\Core\Config\ConfigSchema;
 use Jtl\Connector\Core\Connector\ConnectorInterface;
 use Jtl\Connector\Core\Mapper\PrimaryKeyMapperInterface;
 use Jtl\Connector\Core\Authentication\TokenValidator;
-use Jtl\Connector\Example\Installer\Installer;
-use Jtl\Connector\Example\Mapper\PrimaryKeyMapper;
+use Jtl\Connector\Vivino\Installer\Installer;
+use Jtl\Connector\Vivino\Mapper\PrimaryKeyMapper;
 use Noodlehaus\ConfigInterface;
 use PDO;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -84,7 +84,7 @@ class Connector implements ConnectorInterface
      */
     public function getControllerNamespace() : string
     {
-        return "Jtl\Connector\Example\Controller";
+        return "Jtl\Connector\Vivino\Controller";
     }
 
     /**
@@ -114,7 +114,7 @@ class Connector implements ConnectorInterface
      */
     public function getPlatformName() : string
     {
-        return "Bulk";
+        return "Vivino";
     }
 
     /**

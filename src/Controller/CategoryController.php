@@ -1,6 +1,6 @@
 <?php
 
-namespace Jtl\Connector\Example\Controller;
+namespace Jtl\Connector\Vivino\Controller;
 
 use Jtl\Connector\Core\Controller\DeleteInterface;
 use Jtl\Connector\Core\Controller\PullInterface;
@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
 /**
  *
  * Class CategoryController
- * @package Jtl\Connector\Example\Controller
+ * @package Jtl\Connector\Vivino\Controller
  */
 class CategoryController extends AbstractController implements PullInterface, PushInterface, StatisticInterface, DeleteInterface
 {
@@ -67,7 +67,7 @@ class CategoryController extends AbstractController implements PullInterface, Pu
 
         foreach ($model->getI18ns() as $i18n) {
             $statement = $this->pdo->prepare(
-                "INSERT INTO category_translations (category_id, name, description, title_tag, meta_description, meta_keywords, language_iso) VALUES (?, ?, ?, ?, ?, ?, ?) 
+                "INSERT INTO category_translations (model_id, name, description, title_tag, meta_description, meta_keywords, language_iso) VALUES (?, ?, ?, ?, ?, ?, ?) 
                            ON DUPLICATE KEY UPDATE name = ?, description = ?, title_tag = ? , meta_description = ?, meta_keywords = ?"
             );
 
@@ -149,7 +149,7 @@ class CategoryController extends AbstractController implements PullInterface, Pu
 
         $statement = $this->pdo->prepare("
             SELECT * FROM category_translations t
-            LEFT JOIN categories c ON c.id = t.category_id
+            LEFT JOIN categories c ON c.id = t.model_id
             WHERE c.id = ?
         ");
         

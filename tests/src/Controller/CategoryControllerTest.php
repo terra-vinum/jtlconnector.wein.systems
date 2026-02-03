@@ -1,13 +1,13 @@
 <?php
 
-namespace Jtl\Connector\Example\Tests\src\Controller;
+namespace Jtl\Connector\Vivino\Tests\src\Controller;
 
 use Jtl\Connector\Core\Model\Category;
 use Jtl\Connector\Core\Model\CategoryI18n;
 use Jtl\Connector\Core\Model\Generator\AbstractModelFactory;
 use Jtl\Connector\Core\Model\QueryFilter;
-use Jtl\Connector\Example\Controller\CategoryController;
-use Jtl\Connector\Example\Tests\TestCase;
+use Jtl\Connector\Vivino\Controller\CategoryController;
+use Jtl\Connector\Vivino\Tests\TestCase;
 use ReflectionException;
 
 class CategoryControllerTest extends TestCase

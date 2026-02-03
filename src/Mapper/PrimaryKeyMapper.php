@@ -1,6 +1,6 @@
 <?php
 
-namespace Jtl\Connector\Example\Mapper;
+namespace Jtl\Connector\Vivino\Mapper;
 
 use Jtl\Connector\Core\Mapper\PrimaryKeyMapperInterface;
 use PDO;
@@ -59,7 +59,7 @@ class PrimaryKeyMapper implements PrimaryKeyMapperInterface
      * Deletes a specific linking
      * @inheritDoc
      */
-    public function delete(int $type, string $endpointId = null, int $hostId = null): bool
+    public function delete(int $type, ?string $endpointId = null, ?int $hostId = null): bool
     {
         $where = [
             'type = ?',
@@ -88,7 +88,7 @@ class PrimaryKeyMapper implements PrimaryKeyMapperInterface
      * Clears either the whole mapping table or all entries of a certain type
      * @inheritDoc
      */
-    public function clear(int $type = null): bool
+    public function clear(?int $type = null): bool
     {
         if(!is_null($type)) {
             return $this->delete($type);
