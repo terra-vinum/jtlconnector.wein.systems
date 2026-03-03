@@ -23,21 +23,7 @@ use Jtl\Connector\Core\Model as JTLModel;
 use Jtl\Connector\Core\Model;
 use Jtl\Connector\Vivino;
 
-class ProductPriceController extends ProductController {
+class ProductSpecificsController extends ProductController {
 
-    public function pushModel(JTLModel\AbstractModel $model) : JTLModel\AbstractModel {
-
-        if ( ! ( $localModel = $this->getLocalModel($model,false) ) ) {
-            return $model;
-        }
-
-        foreach ( $model->getPrices() as $price ) {
-            foreach ( $price->getItems() as $priceItem ) {
-                $localModel->setBottlePrice(round($priceItem->getNetPrice() * (1 + $model->getVat() * 0.01),2)); //
-            }
-        }
-        $this->em()->persist( $localModel );
-        return $model;
-    }
 
 }

@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+// application.php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Jtl\Connector\Vivino\Console;
+use Jtl\Connector\Vivino\Application as VivinoApplication;
+
+
+$connectorDir = __DIR__;
+VivinoApplication::init($connectorDir);
+
+$application = new Application();
+
+$application->addCommands([
+    new Console\WeinsysSyncAttributes(),
+    new Console\WeinsysSyncProperties(),
+]);
+$application->run();

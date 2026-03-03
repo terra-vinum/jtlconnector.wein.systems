@@ -13,6 +13,8 @@ use Jtl\Connector\Vivino\Mapper\PrimaryKeyMapper;
 use Noodlehaus\ConfigInterface;
 use PDO;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * Example Connector
@@ -27,10 +29,21 @@ class Connector implements ConnectorInterface
      */
     protected $config;
 
+    private static Connector $instance;
+
     /**
      * @var PDO
      */
     protected $pdo;
+
+    protected EntityManager $em;
+
+    public static function get() : Connector {
+        if ( ! isset( static::$instance ) ) {
+
+        }
+        return static::$instance;
+    }
 
     /**
      * @param ConfigInterface $config
@@ -39,10 +52,20 @@ class Connector implements ConnectorInterface
      */
     public function initialize(ConfigInterface $config, Container $container, EventDispatcher $dispatcher) : void
     {
+        $connectorDir = $config->get(ConfigSchema::CONNECTOR_DIR);
+
         $this->config = $config;
         $this->pdo = $this->createPdoInstance($config->get('db'));
 
-        $connectorDir = $config->get(ConfigSchema::CONNECTOR_DIR);
+        // Doctrine\ORM
+        $metadataConfig = Setup::createAnnotationMetadataConfiguration(
+            [ $connectorDir."/src" ],
+            ! in_array( getenv('APP_ENV'),['live','prod','production'] ),
+            null, null, false
+        );
+
+        $this->em = EntityManager::create([ 'pdo' => $this->pdo ], $metadataConfig);
+
         $lockFile = sprintf('%s/%s', $connectorDir, self::INSTALLER_LOCK_FILE);
         if (!is_file($lockFile)) {
             $installer = new Installer($this->pdo, $connectorDir);
@@ -54,6 +77,10 @@ class Connector implements ConnectorInterface
         // so it can be injected into the controllers by instantiation.
         // For more information about the di container see https://php-di.org/doc/
         $container->set(PDO::class, $this->pdo);
+    }
+
+    public function em() {
+        return $this->em;
     }
 
     /**

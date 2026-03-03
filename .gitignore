@@ -18,5 +18,7 @@ composer.lock
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+.DS_Store
+.env
 ~*
 *~

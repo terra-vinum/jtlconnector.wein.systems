@@ -13,13 +13,17 @@
     }
   ],
   "require": {
-    "php": "^7.4. || ^8.0 || ^8.1",
-    "jtl/connector": "^5.0",
+    "php": "^8.3",
     "phpunit/phpunit": "^9.3",
     "jtl/unit-test": "^0.1.1",
     "ramsey/uuid": "^4.0",
     "ext-pdo": "*",
-    "sentry/sentry": "^4.19"
+    "sentry/sentry": "^4.19",
+    "terra-vinum/connector-core": "^5.3",
+    "doctrine/orm": "^2.20",
+    "symfony/orm-pack": "^2.7",
+    "symfony/yaml": "^6.4",
+    "symfony/dotenv": "^6.4"
   },
   "autoload": {
     "psr-4": {
@@ -35,5 +39,11 @@
     "friendsofphp/php-cs-fixer": "^3.1"
   },
   "config": {
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:terra-vinum/connector-core.git"
+    }
+  ]
 }
