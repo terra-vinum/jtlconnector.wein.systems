@@ -86,6 +86,7 @@ class GlobalDataController implements PullInterface, PushInterface
 
     protected function pushModel(JTLModel\AbstractModel $model): JTLModel\AbstractModel {
         // this will be so ignored!
+        return $model;
     }
 
 }
