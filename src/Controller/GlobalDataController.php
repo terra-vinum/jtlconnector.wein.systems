@@ -52,14 +52,14 @@ class GlobalDataController extends AbstractController implements PullInterface, 
         $globalData->addCustomerGroup(
             (new JTLModel\CustomerGroup())->setId(new JTLModel\Identity('VV'))
                 ->setIsDefault(true)
-                ->setApplyNetPrice(true)
+                ->setApplyNetPrice(false)
                 ->addI18n((new JTLModel\CustomerGroupI18n())->setName('Vivino')->setLanguageISO('de'))
         );
         $globalData->addCustomerGroup(
             (new JTLModel\CustomerGroup())->setId(new JTLModel\Identity('EK'))
                 ->setIsDefault(false)
-                ->setApplyNetPrice(true)
-                ->addI18n((new JTLModel\CustomerGroupI18n())->setName('Endkunden')->setLanguageISO('de'))
+                ->setApplyNetPrice(false)
+                ->addI18n((new JTLModel\CustomerGroupI18n())->setName('Terra-Vinum')->setLanguageISO('de'))
         );
 
         // TaxRates
