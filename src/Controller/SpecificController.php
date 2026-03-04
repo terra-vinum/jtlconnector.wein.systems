@@ -23,7 +23,10 @@ use Jtl\Connector\Core\Model as JTLModel;
 use Jtl\Connector\Core\Model;
 use Jtl\Connector\Vivino;
 
-class SpecificController extends AbstractController {
+class SpecificController extends AbstractController implements PushInterface, DeleteInterface {
+
+    use Traits\Delete;
+    use Traits\Push;
 
     public function pushModel(JTLModel\AbstractModel $model): JTLModel\AbstractModel {
 

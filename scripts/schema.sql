@@ -63,14 +63,12 @@ CREATE TABLE `properties` (
   UNIQUE KEY `property_value` (`property_id`,`value_id`)
 );
 
-CREATE TABLE `properties` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `property_name` varchar(255) DEFAULT NULL,
-  `property_id` int(11) unsigned DEFAULT NULL,
-  `value_name` varchar(255) DEFAULT NULL,
-  `value_id` int(22) unsigned DEFAULT NULL,
+CREATE TABLE `weinsys_attributes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `label` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `property_value` (`property_id`,`value_id`)
+  UNIQUE KEY `name` (`name`)
 );
 
 CREATE TABLE `weinsys_properties` (

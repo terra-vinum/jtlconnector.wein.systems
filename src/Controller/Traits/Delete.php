@@ -16,7 +16,7 @@ trait Delete {
     public function delete(JTLModel\AbstractModel ...$model) : array
     {
         $processedModels = [];
-        file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-fuckit-'.static::class.'::delete',var_export($model,true));
+        // file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-fuckit-'.static::class.'::delete',var_export($model,true));
 
         foreach ( $model as $m ) {
             $processedModels[] = $this->deleteModel($m);

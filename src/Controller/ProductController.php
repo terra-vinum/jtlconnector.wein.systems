@@ -24,11 +24,7 @@ use Jtl\Connector\Vivino\Models as LocalModel;
 use PhpCsFixer\Utils;
 use Jtl\Connector\Core\Utilities\Str;
 
-class ProductController extends AbstractController implements
-    PushInterface,
-    PullInterface,
-    DeleteInterface
-{
+class ProductController extends AbstractController implements PushInterface, DeleteInterface {
     use Traits\Delete;
     use Traits\Push;
 
@@ -200,7 +196,7 @@ class ProductController extends AbstractController implements
 
 
     public function pull(JTLModel\QueryFilter $queryFilter) : array {
-        file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-'.static::class.'::pull',var_export($model,true));
+        // file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-'.static::class.'::pull',var_export($model,true));
         $repo  = $this->em()->getRepository(LocalModel\Product::class);
         $result = [];
         foreach ( $repo->findAll() as $entity ) {

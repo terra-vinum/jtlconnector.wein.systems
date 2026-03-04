@@ -8,7 +8,7 @@ trait Push {
     public function push(JTLModel\AbstractModel ...$model) : array {
 
         $processedModels = [];
-        file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-'.static::class.'::push',var_export($model,true));
+        // file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-'.static::class.'::push',var_export($model,true));
         foreach ( $model as $m ) {
             $processedModels[] = $this->pushModel($m);
         }
