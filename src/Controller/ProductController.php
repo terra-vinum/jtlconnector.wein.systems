@@ -125,16 +125,20 @@ class ProductController extends AbstractController implements PushInterface, Del
                 }
             }
         }
-        // $this->pushPrice($model);
 
         foreach ( $model->getSpecialPrices() as $specialPrice ) {
             // TODO
         }
 
+
         foreach ( $model->getSpecifics() as $specific ) {
             if ( $wsProp = $this->getWSProperty($specific) ) {
                 $propName = Str::toPascalCase( $wsProp->group_name );
+                if ( 'WineVintage' === $propName ) {
+                    continue;
+                }
                 $setter = "set{$propName}";
+                // TODO support multiple props
                 if ( method_exists( $localModel, $setter ) ) {
                     $localModel->{$setter}($wsProp->value_label);
                 }
