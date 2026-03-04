@@ -4,7 +4,7 @@ namespace Jtl\Connector\Vivino\Controller;
 
 use Jtl\Connector\Core\Controller\PullInterface;
 use Jtl\Connector\Core\Controller\PushInterface;
-use Jtl\Connector\Core\Model;
+use Jtl\Connector\Core\Model as JTLModel;
 use Ramsey\Uuid\Uuid;
 
 class GlobalDataController implements PullInterface, PushInterface
@@ -15,11 +15,11 @@ class GlobalDataController implements PullInterface, PushInterface
     /**
      * @inheritDoc
      */
-    public function pull(Model\QueryFilter $queryFilter) : array
+    public function pull(JTLModel\QueryFilter $queryFilter) : array
     {
         $result = [];
 
-        $globalData = new Model\GlobalData();
+        $globalData = new JTLModel\GlobalData();
 
         // ***************************************
         // * Static values for presentation only *
@@ -27,7 +27,7 @@ class GlobalDataController implements PullInterface, PushInterface
 
         // Languages
         $globalData->addLanguage(
-            (new Model\Language())->setId(new Model\Identity('4faa508a23e3427889bfae0561d7915d'))
+            (new JTLModel\Language())->setId(new JTLModel\Identity('4faa508a23e3427889bfae0561d7915d'))
                 ->setLanguageISO('de')
                 ->setIsDefault(true)
                 ->setNameGerman('Deutsch')
@@ -36,7 +36,7 @@ class GlobalDataController implements PullInterface, PushInterface
 
         // Currencies
         $globalData->addCurrency(
-            (new Model\Currency())->setId(new Model\Identity('56b0d7e12feb47838e2cd6c49f2cfd82'))
+            (new JTLModel\Currency())->setId(new JTLModel\Identity('56b0d7e12feb47838e2cd6c49f2cfd82'))
                 ->setIsDefault(true)
                 ->setName('Euro')
                 ->setDelimiterCent(',')
@@ -50,32 +50,32 @@ class GlobalDataController implements PullInterface, PushInterface
         // CustomerGroups
 
         $globalData->addCustomerGroup(
-            (new Model\CustomerGroup())->setId(new Model\Identity('VV'))
+            (new JTLModel\CustomerGroup())->setId(new JTLModel\Identity('VV'))
                 ->setIsDefault(true)
                 ->setApplyNetPrice(true)
-                ->addI18n((new Model\CustomerGroupI18n())->setName('Vivino')->setLanguageISO('de'))
+                ->addI18n((new JTLModel\CustomerGroupI18n())->setName('Vivino')->setLanguageISO('de'))
         );
         $globalData->addCustomerGroup(
-            (new Model\CustomerGroup())->setId(new Model\Identity('EK'))
+            (new JTLModel\CustomerGroup())->setId(new JTLModel\Identity('EK'))
                 ->setIsDefault(false)
                 ->setApplyNetPrice(true)
-                ->addI18n((new Model\CustomerGroupI18n())->setName('Endkunden')->setLanguageISO('de'))
+                ->addI18n((new JTLModel\CustomerGroupI18n())->setName('Endkunden')->setLanguageISO('de'))
         );
 
         // TaxRates
         $globalData->addTaxRate(
-            (new Model\TaxRate())->setId(new Model\Identity('f1ec9220f3f64049926a83f5ba8df985'))
+            (new JTLModel\TaxRate())->setId(new JTLModel\Identity('f1ec9220f3f64049926a83f5ba8df985'))
                 ->setRate(19.0)
         );
 
         $globalData->addTaxRate(
-            (new Model\TaxRate())->setId(new Model\Identity('ec0a029a85554745aa42fb708d3c5c8c'))
+            (new JTLModel\TaxRate())->setId(new JTLModel\Identity('ec0a029a85554745aa42fb708d3c5c8c'))
                 ->setRate(7.0)
         );
 
         // shippingMethods
         $globalData->addShippingMethod(
-            (new Model\ShippingMethod())->setId(new Model\Identity('7adeec3fbbe942c6a8e910ead168703d'))
+            (new JTLModel\ShippingMethod())->setId(new JTLModel\Identity('7adeec3fbbe942c6a8e910ead168703d'))
                 ->setName('DHL Versand')
         );
 
