@@ -6,14 +6,17 @@ CREATE TABLE IF NOT EXISTS `mappings`
     PRIMARY KEY (`endpoint`, `type`)
 );
 
-
-CREATE TABLE IF NOT EXISTS `products` (
+CREATE TABLE `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created` timestamp NULL DEFAULT current_timestamp(),
   `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `jtlId` int(11) NOT NULL,
+  `jtl_id` int(11) NOT NULL,
   `sku` varchar(255) DEFAULT '',
   `stock` int(11) DEFAULT NULL,
+  `supplier_stock` int(11) DEFAULT NULL,
+  `permit_negative_stock` tinyint(1) unsigned DEFAULT NULL,
+  `delivery_time` int(11) unsigned DEFAULT NULL,
+  `handling_time` int(11) unsigned DEFAULT NULL,
   `product_name` varchar(255) DEFAULT '',
   `vivino_name` varchar(255) DEFAULT '',
   `bottle_price` double DEFAULT NULL,

@@ -7,8 +7,10 @@ use Jtl\Connector\Core\Controller\PushInterface;
 use Jtl\Connector\Core\Model;
 use Ramsey\Uuid\Uuid;
 
-class GlobalDataController implements PullInterface
+class GlobalDataController implements PullInterface, PushInterface
 {
+
+    use Traits\Push;
 
     /**
      * @inheritDoc
@@ -80,6 +82,10 @@ class GlobalDataController implements PullInterface
         $result[] = $globalData;
 
         return $result;
+    }
+
+    protected function pushModel(JTLModel\AbstractModel $model): JTLModel\AbstractModel {
+        // this will be so ignored!
     }
 
 }
