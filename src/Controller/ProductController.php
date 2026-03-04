@@ -26,13 +26,21 @@ use Jtl\Connector\Core\Utilities\Str;
 
 class ProductController extends AbstractController implements
     PushInterface,
+    PullInterface,
     DeleteInterface
 {
+    use Traits\Delete;
+    use Traits\Push;
 
     /*
-    1: ProductController
-    2: ProductPriceController
-    4: ProductStockLevelController
+    Werte für [dbo].[tArtikelShop].[nAktion]
+    1: ProductController::push
+    2:                          ProductPriceController::push
+    3: ProductController::push, ProductPriceController::push
+    4:                                                        ProductStockLevelController::push
+    5: ProductController::push,                               ProductStockLevelController::push
+    6:                          ProductPriceController::push, ProductStockLevelController::push
+    7: ProductController::push, ProductPriceController::push, ProductStockLevelController::push
     */
     protected $modelCalss = LocalModel\Product::class;
     public const
@@ -57,31 +65,17 @@ class ProductController extends AbstractController implements
     }
 
     /**
-     * @param AbstractModel ...$models
-     * @phpstan-param Product ...$model
-     *
+     * @param AbstractModel $model
      * @return AbstractModel[]
-     * @throws InvalidArgumentException
-     * @throws MustNotBeNullException
-     * @throws NonNumericValue
-     * @throws NonStringUnitName
-     * @throws TranslatableAttributeException
-     * @throws WC_Data_Exception
-     * @throws \DateInvalidTimeZoneException
-     * @throws \DateMalformedStringException
-     * @throws \Psr\Log\InvalidArgumentException
-     * @throws \TypeError
-     * @throws \WP_Exception
      */
     public function pushModel(JTLModel\AbstractModel $model): JTLModel\AbstractModel {
 
+        // skip and remove inactive and parent products
         if ( ! $model->getIsActive() || static::TYPE_PARENT === $this->getProductType($model) ) {
             return $model;
         }
 
         $localModel = $this->getLocalModel($model);
-
-        // remove skip inactive and parent products
 
         $ean = array_unshift(explode(',',$model->getEan()));
 
@@ -91,14 +85,15 @@ class ProductController extends AbstractController implements
             ->setBottleSize( $model->getMeasurementQuantity() )
             ->setBottleQuantity( $model->getMinimumOrderQuantity() )
             ->setCountry( $model->getOriginCountry() )
+            ->setPermitNegativeStock( $model->getPermitNegativeStock() ) // IF stock >= bottle_quantity OR permit_negative THEN yes
+            ->setDeliveryTime( $model->getSupplierDeliveryTime() ) // IF delivery + handling < X THEN yes
+            ->setHandlingTime( $model->getAdditionalHandlingTime() )
+            ->setSupplierStock( $model->getSupplierStockLevel() )
             // ->set******( $model->getPackagingQuantity() )
             ;
 
         // TODO
-        // packagingQuantity
-        // permitNegativeStock
-        // supplierDeliveryTime
-        // additionalHandlingTime
+        // packagingQuantity?
         foreach ($model->getI18ns() as $i18n) {
             $localModel->setProductName($i18n->getName());
             // TODO urlPath
@@ -106,12 +101,13 @@ class ProductController extends AbstractController implements
 
         foreach ($model->getAttributes() as $key => $attr) {
             foreach ($attr->getI18ns() as $i18n) {
+                if ( $attrName = $this->getAttributeName( $i18n->getName() ) ) {
+                    $attrName = Str::toPascalCase( $attrName );
 
-                $attrName = Str::toPascalCase( $this->getAttributeName( $i18n->getName() ) );
-
-                $setter = "set{$attrName}";
-                if ( method_exists( $localModel, $setter ) ) {
-                    $localModel->{$setter}($i18n->getValue());
+                    $setter = "set{$attrName}";
+                    if ( method_exists( $localModel, $setter ) ) {
+                        $localModel->{$setter}($i18n->getValue());
+                    }
                 }
             }
         }
@@ -119,13 +115,14 @@ class ProductController extends AbstractController implements
         if ( static::TYPE_CHILD === $this->getProductType($model) ) {
             foreach ( $model->getVariations() as $variation ) {
                 foreach ( $variation->getI18ns() as $i18n ) {
-                    $wsProp = $this->getWSPropertyFromName($i18n->getName());
-                    $propName = Str::toPascalCase( $wsProp->group_name );
-                    $setter = "set{$propName}";
-                    if ( method_exists( $localModel, $setter ) ) {
-                        foreach ( $variation->getValues() as $value ) {
-                            foreach ( $value->getI18ns() as $valueI18n ) {
-                                $localModel->{$setter}($valueI18n->getName());
+                    if ( $wsProp = $this->getWSPropertyFromName($i18n->getName()) ) {
+                        $propName = Str::toPascalCase( $wsProp->group_name );
+                        $setter = "set{$propName}";
+                        if ( method_exists( $localModel, $setter ) ) {
+                            foreach ( $variation->getValues() as $value ) {
+                                foreach ( $value->getI18ns() as $valueI18n ) {
+                                    $localModel->{$setter}($valueI18n->getName());
+                                }
                             }
                         }
                     }
@@ -135,7 +132,7 @@ class ProductController extends AbstractController implements
         // $this->pushPrice($model);
 
         foreach ( $model->getSpecialPrices() as $specialPrice ) {
-
+            // TODO
         }
 
         foreach ( $model->getSpecifics() as $specific ) {
@@ -156,9 +153,10 @@ class ProductController extends AbstractController implements
     private function getWSProperty($specific) {
         $stmt = $this->pdo->prepare('SELECT * FROM properties WHERE value_id = ?');
         $stmt->execute([$specific->getSpecificValueId()->getHost()]);
-        $prop = $stmt->fetch(\PDO::FETCH_OBJ);
-        return $this->getWSPropertyFromName($prop->property_name);
-
+        if ( $prop = $stmt->fetch(\PDO::FETCH_OBJ) ) {
+            return $this->getWSPropertyFromName($prop->property_name);
+        }
+        return false;
     }
 
     private function getWSPropertyFromName($name) {
@@ -178,12 +176,11 @@ class ProductController extends AbstractController implements
 
     protected function deleteModel(JTLModel\AbstractModel $model ) {
 
-        $repo       = $this->em()->getRepository(LocalModel\Product::class);
-        $localModel = $repo->findOneBy('jtl_id',$model->getId()->getHost());
+        if ( $localModel = $this->getLocalModel($model,false)) {
+            $this->em()->remove( $localModel );
+        }
 
-        $this->em()->remove( $localModel );
-
-		return $model;
+        return $model;
 	}
 
 
@@ -202,4 +199,25 @@ class ProductController extends AbstractController implements
     }
 
 
+    public function pull(JTLModel\QueryFilter $queryFilter) : array {
+        file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-'.static::class.'::pull',var_export($model,true));
+        $repo  = $this->em()->getRepository(LocalModel\Product::class);
+        $result = [];
+        foreach ( $repo->findAll() as $entity ) {
+            $model = new JTLModels\Product( $entity->getId(), $entity->getJtlId() );
+            $model->setStockLevel((float) $entity->getStock());
+            $model->setSku( $entity->getSku() );
+            $model->setEan( $entity->getEan() );
+            $model->setMeasurementQuantity( $entity->getBottleSize() );
+            $model->setMinimumOrderQuantity( $entity->getBottleQuantity() );
+            $model->setOriginCountry( $entity->getCountry() );
+            $model->setPermitNegativeStock( $entity->getPermitNegativeStock() );
+            $model->setSupplierDeliveryTime( $entity->getDeliveryTime() );
+            $model->setAdditionalHandlingTime( $entity->getHandlingTime() );
+            $model->setSupplierStockLevel( $entity->getSupplierStock() );
+            $result[] = $model;
+        }
+
+        return $result;
+    }
 }

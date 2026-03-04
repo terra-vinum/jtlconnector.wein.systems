@@ -35,8 +35,8 @@ use Jtl\Connector\Vivino\Application;
  * Class AbstractController
  * @package Jtl\Connector\Vivino\Controller
  */
-abstract class AbstractController
-{
+abstract class AbstractController {
+
     /**
      * @var PDO
      */
@@ -60,38 +60,7 @@ abstract class AbstractController
         return Application::get()->em();
     }
 
-    /**
-     * @param AbstractModel ...$models
-     * @return AbstractModel[]
-     * @throws \Psr\Log\InvalidArgumentException
-     * @throws Exception
-     */
-    public function delete(JTLModel\AbstractModel ...$model) : array
-    {
-        $processedModels = [];
-        // file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-fuckit-'.static::class,var_export($model,true));
 
-        foreach ( $model as $m ) {
-            $processedModels[] = $this->deleteModel($m);
-        }
-        $this->em()->flush();
-        return $processedModels;
-    }
-
-    public function push(JTLModel\AbstractModel ...$model) : array {
-
-        $processedModels = [];
-        // file_put_contents(getenv('JTL_ROOT_DIR').'/'.time().'-'.static::class,var_export($model,true));
-        foreach ( $model as $m ) {
-            $processedModels[] = $this->pushModel($m);
-        }
-        $this->em()->flush();
-        return $processedModels;
-    }
-
-    abstract protected function pushModel(JTLModel\AbstractModel $model): JTLModel\AbstractModel;
-
-    abstract protected function deleteModel(JTLModel\AbstractModel $model );
 
 
 

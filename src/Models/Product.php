@@ -34,7 +34,7 @@ class Product {
     private ?DateTime $updated = null;
 
     /**
-     * @Column(type="integer")
+     * @Column(type="integer",name="jtl_id")
      */
     private ?int $jtlId = null;
 
@@ -47,6 +47,27 @@ class Product {
      * @Column(type="integer",name="stock")
      */
     private string $stock;
+
+    /**
+     * @Column(type="integer",name="supplier_stock")
+     */
+    private string $supplierStock;
+
+    /**
+     * @Column(type="boolean",name="permit_negative_stock")
+     */
+    private string $permitNegativeStock;
+
+    /**
+     * @Column(type="integer",name="delivery_time")
+     */
+    private string $deliveryTime;
+
+    /**
+     * @Column(type="integer",name="handling_time")
+     */
+    private string $handlingTime;
+
 
     /**
      * @Column(type="string",name="product_name")
@@ -294,7 +315,7 @@ saeure
     }
 
     /**
-     * Set sku.
+     * Set stock.
      *
      * @param string $stock
      *
@@ -308,13 +329,109 @@ saeure
     }
 
     /**
-     * Get sku.
+     * Get stock.
      *
-     * @return ineger
+     * @return integer
      */
     public function getStock()
     {
         return $this->stock;
+    }
+
+    /**
+     * Set stock.
+     *
+     * @param string $supplierStock
+     *
+     * @return Product
+     */
+    public function setSupplierStock($supplierStock)
+    {
+        $this->supplierStock = $supplierStock;
+
+        return $this;
+    }
+
+    /**
+     * Get supplierStock.
+     *
+     * @return integer
+     */
+    public function getSupplierStock()
+    {
+        return $this->supplierStock;
+    }
+
+    /**
+     * Set permitNegativeStock.
+     *
+     * @param string $permitNegativeStock
+     *
+     * @return Product
+     */
+    public function setPermitNegativeStock($permitNegativeStock)
+    {
+        $this->permitNegativeStock = $permitNegativeStock;
+
+        return $this;
+    }
+
+    /**
+     * Get permitNegativeStock.
+     *
+     * @return boolean
+     */
+    public function getPermitNegativeStock()
+    {
+        return $this->permitNegativeStock;
+    }
+
+    /**
+     * Set deliveryTime.
+     *
+     * @param string $deliveryTime
+     *
+     * @return Product
+     */
+    public function setDeliveryTime($deliveryTime)
+    {
+        $this->deliveryTime = $deliveryTime;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryTime.
+     *
+     * @return integer
+     */
+    public function getDeliveryTime()
+    {
+        return $this->deliveryTime;
+    }
+
+    /**
+     * Set deliveryTime.
+     *
+     * @param string $handlingTime
+     *
+     * @return Product
+     */
+    public function setHandlingTime($handlingTime)
+    {
+        $this->handlingTime = $handlingTime;
+
+        return $this;
+    }
+
+    /**
+     * Get handlingTime.
+     *
+     * @return integer
+     */
+    public function getHandlingTime()
+    {
+        return $this->handlingTime;
     }
 
     /**

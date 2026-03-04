@@ -32,8 +32,11 @@ class ProductPriceController extends ProductController {
         }
 
         foreach ( $model->getPrices() as $price ) {
-            foreach ( $price->getItems() as $priceItem ) {
-                $localModel->setBottlePrice(round($priceItem->getNetPrice() * (1 + $model->getVat() * 0.01),2)); //
+            if ( $price->getCustomerGroupId()->getEndpoint() === 'VV' ) {
+                foreach ( $price->getItems() as $priceItem ) {
+                    $localModel->setBottlePrice(round($priceItem->getNetPrice() * (1 + $model->getVat() * 0.01),2)); //
+                }
+                break;
             }
         }
         $this->em()->persist( $localModel );

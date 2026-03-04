@@ -1,1 +1,4 @@
  - [ ] Customer Orders Pull
+ - [ ] Feed
+ - [x] abverkauf berücksichigen. Mit Lieferantenbestand?
+ - [x] Regelmäßige Updates => Via Worker

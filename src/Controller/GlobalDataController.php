@@ -48,10 +48,16 @@ class GlobalDataController implements PullInterface
         // CustomerGroups
 
         $globalData->addCustomerGroup(
-            (new Model\CustomerGroup())->setId(new Model\Identity('b1d7b4cbe4d846f0b323a9d840800177'))
+            (new Model\CustomerGroup())->setId(new Model\Identity('VV'))
                 ->setIsDefault(true)
                 ->setApplyNetPrice(true)
                 ->addI18n((new Model\CustomerGroupI18n())->setName('Vivino')->setLanguageISO('de'))
+        );
+        $globalData->addCustomerGroup(
+            (new Model\CustomerGroup())->setId(new Model\Identity('EK'))
+                ->setIsDefault(false)
+                ->setApplyNetPrice(true)
+                ->addI18n((new Model\CustomerGroupI18n())->setName('Endkunden')->setLanguageISO('de'))
         );
 
         // TaxRates
