@@ -192,7 +192,7 @@
         },
         "Image": {
             "pull": false,
-            "push": false,
+            "push": true,
             "delete": false
         },
         "Language": {
@@ -489,7 +489,7 @@
         "specific_images_supported": false,
         "specific_value_images_supported": false,
         "config_group_images_supported": false,
-        "product_variation_value_images_supported": false,
+        "product_variation_value_images_supported": true,
         "variation_products_supported": true,
         "variation_combinations_supported": true,
         "set_articles_supported": false,

@@ -73,11 +73,11 @@ class ProductController extends AbstractController implements PushInterface, Del
 
         $localModel = $this->getLocalModel($model);
 
-        $ean = array_unshift(explode(',',$model->getEan()));
+        // $ean = array_unshift(explode(',',$model->getEan()));
 
         $localModel
             ->setSku( $model->getSku() )
-            ->setEan( $ean )
+            // ->setGtinVke( $ean )
             ->setBottleSize( $model->getMeasurementQuantity() )
             ->setBottleQuantity( $model->getMinimumOrderQuantity() )
             ->setCountry( $model->getOriginCountry() )
@@ -85,13 +85,16 @@ class ProductController extends AbstractController implements PushInterface, Del
             ->setDeliveryTime( $model->getSupplierDeliveryTime() ) // IF delivery + handling < X THEN yes
             ->setHandlingTime( $model->getAdditionalHandlingTime() )
             ->setSupplierStock( $model->getSupplierStockLevel() )
+
             // ->set******( $model->getPackagingQuantity() )
             ;
 
         // TODO
         // packagingQuantity?
         foreach ($model->getI18ns() as $i18n) {
-            $localModel->setProductName($i18n->getName());
+            $localModel
+                ->setProductName($i18n->getName())
+                ->setLink($i18n->getUrlPath());
             // TODO urlPath
         }
 
@@ -99,9 +102,9 @@ class ProductController extends AbstractController implements PushInterface, Del
             foreach ($attr->getI18ns() as $i18n) {
                 if ( $attrName = $this->getAttributeName( $i18n->getName() ) ) {
                     $attrName = Str::toPascalCase( $attrName );
-
                     $setter = "set{$attrName}";
                     if ( method_exists( $localModel, $setter ) ) {
+// var_dump($setter);
                         $localModel->{$setter}($i18n->getValue());
                     }
                 }

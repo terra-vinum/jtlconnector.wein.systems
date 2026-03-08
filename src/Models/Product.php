@@ -105,9 +105,9 @@ class Product {
     private string $image;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string",name="gtin_vke")
      */
-    private string $ean;
+    private string $gtinVke;
 
     /**
      * @Column(type="string",name="wine_vintage")
@@ -125,9 +125,9 @@ class Product {
     private string $country;
 
     /**
-     * @Column(type="string")
+     * @Column(type="string",name="lbm_zutaten")
      */
-    private string $lbmZutaten;
+    private string $lbm_zutaten;
 
     /**
      * @Column(type="float")
@@ -604,27 +604,27 @@ saeure
     }
 
     /**
-     * Set ean.
+     * Set gtinVke.
      *
-     * @param string $ean
+     * @param string $gtinVke
      *
      * @return Product
      */
-    public function setEan($ean)
+    public function setGtinVke($gtinVke)
     {
-        $this->ean = $ean;
+        $this->gtinVke = $gtinVke;
 
         return $this;
     }
 
     /**
-     * Get ean.
+     * Get gtinVke.
      *
      * @return string
      */
-    public function getEan()
+    public function getGtinVke()
     {
-        return $this->ean;
+        return $this->gtinVke;
     }
 
     /**
