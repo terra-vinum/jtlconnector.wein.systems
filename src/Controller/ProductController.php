@@ -73,11 +73,8 @@ class ProductController extends AbstractController implements PushInterface, Del
 
         $localModel = $this->getLocalModel($model);
 
-        // $ean = array_unshift(explode(',',$model->getEan()));
-
         $localModel
             ->setSku( $model->getSku() )
-            // ->setGtinVke( $ean )
             ->setBottleSize( $model->getMeasurementQuantity() )
             ->setBottleQuantity( $model->getMinimumOrderQuantity() )
             ->setCountry( $model->getOriginCountry() )
@@ -210,7 +207,7 @@ class ProductController extends AbstractController implements PushInterface, Del
             $model = new JTLModels\Product( $entity->getId(), $entity->getJtlId() );
             $model->setStockLevel((float) $entity->getStock());
             $model->setSku( $entity->getSku() );
-            $model->setEan( $entity->getEan() );
+            $model->setEan( $entity->getGtinVke() );
             $model->setMeasurementQuantity( $entity->getBottleSize() );
             $model->setMinimumOrderQuantity( $entity->getBottleQuantity() );
             $model->setOriginCountry( $entity->getCountry() );
