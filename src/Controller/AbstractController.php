@@ -61,9 +61,6 @@ abstract class AbstractController {
     }
 
 
-
-
-
     protected function fetchModel($modelClass, string $table, $id ) {
 
     }
