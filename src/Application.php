@@ -58,6 +58,13 @@ class Application extends JTLApplication {
         return static::$appPDO;
     }
 
+
+    public static function query($sql,$params) {
+        $stmt = static::pdo()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
+
     public static function get() {
         if ( ! isset( static::$app ) ) {
             static::$app =new static(static::$appDir,static::$appConfig);

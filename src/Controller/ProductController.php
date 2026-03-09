@@ -86,13 +86,11 @@ class ProductController extends AbstractController implements PushInterface, Del
             // ->set******( $model->getPackagingQuantity() )
             ;
 
-        // TODO
         // packagingQuantity?
         foreach ($model->getI18ns() as $i18n) {
             $localModel
                 ->setProductName($i18n->getName())
                 ->setLink($i18n->getUrlPath());
-            // TODO urlPath
         }
 
         foreach ($model->getAttributes() as $key => $attr) {

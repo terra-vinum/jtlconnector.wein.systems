@@ -78,7 +78,14 @@ class FeedApplication {
     }
 
     public function run(): void {
-        // TODO auth from request
+        // auth from request
+        if ( ! isset($_GET['key']) || $_GET['key'] !== getenv('FEED_AUTH')) {
+            http_response_code(403);
+            echo "Forbidden";
+            exit();
+        }
+
+        // @see https://vivino.slab.com/public/posts/9gq0o3dg
 
         $shop_host  = getenv('SHOP_URL_HOST');
         $image_path = getenv('SHOP_URL_IMAGE');
