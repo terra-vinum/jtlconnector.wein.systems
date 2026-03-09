@@ -116,12 +116,12 @@
             "delete": false
         },
         "CustomerOrder": {
-            "pull": false,
+            "pull": true,
             "push": false,
             "delete": false
         },
         "CustomerOrderAttr": {
-            "pull": false,
+            "pull": true,
             "push": false,
             "delete": false
         },
@@ -131,7 +131,7 @@
             "delete": false
         },
         "CustomerOrderItem": {
-            "pull": false,
+            "pull": true,
             "push": false,
             "delete": false
         },
@@ -146,7 +146,7 @@
             "delete": false
         },
         "CustomerOrderShippingAddress": {
-            "pull": false,
+            "pull": true,
             "push": false,
             "delete": false
         },

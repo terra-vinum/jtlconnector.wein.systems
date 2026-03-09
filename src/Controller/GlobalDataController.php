@@ -7,7 +7,7 @@ use Jtl\Connector\Core\Controller\PushInterface;
 use Jtl\Connector\Core\Model as JTLModel;
 use Ramsey\Uuid\Uuid;
 
-class GlobalDataController extends AbstractController implements PullInterface, PushInterface {
+class GlobalDataController extends AbstractController implements PullInterface /*, PushInterface*/ {
 
     // use Traits\Push;
 
